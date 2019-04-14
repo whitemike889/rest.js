@@ -6,13 +6,13 @@ workflow "Deploy documentation to GitHub Pages on push" {
 # Filter for master branch
 action "master branch only" {
   uses = "actions/bin/filter@master"
-  args = "branch master"
+  args = "branch debug-website"
 }
 
 action "npm ci" {
   needs = "master branch only"
   uses = "docker://node:alpine"
-  runs = "npm ci && cd docs/ && npm ci"
+  runs = "npm ci --production && cd docs/ && npm ci"
 }
 
 action "npm run build" {
