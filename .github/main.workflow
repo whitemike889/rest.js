@@ -12,17 +12,17 @@ action "master branch only" {
 action "npm ci" {
   needs = "master branch only"
   uses = "docker://node:alpine"
-  runs = "npm ci --production && cd docs/ && npm ci"
+  runs = "(npm ci --production && cd docs/ && npm ci)"
 }
 
 action "npm run build" {
   needs = "npm ci"
   uses = "docker://node:alpine"
-  runs = "npm run build -- --prefix-paths"
+  runs = "(cd docs/ && npm run build -- --prefix-paths)"
 }
 
 action "deploy" {
-  needs = "npm run build"
+  needs = "(cd docs/ && npm run build)"
   uses = "maxheld83/ghpages@v0.2.1"
   env = {
     BUILD_DIR = "public/"
