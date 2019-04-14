@@ -12,13 +12,25 @@ action "master branch only" {
 action "npm ci" {
   needs = "master branch only"
   uses = "docker://node:alpine"
-  runs = "npm ci --production && cd docs/ && npm ci"
+  runs = "npm ci --production"
+}
+
+action "npm ci docs" {
+  needs = "npm ci"
+  uses = "docker://node:alpine"
+  runs = "npm ci --production"
+  env = {
+    GITHUB_WORKSPACE = "docs/"
+  }
 }
 
 action "npm run build" {
   needs = "npm ci"
   uses = "docker://node:alpine"
-  runs = "cd docs/ && npm run build -- --prefix-paths"
+  runs = "npm run build -- --prefix-paths"
+  env = {
+    GITHUB_WORKSPACE = "docs/"
+  }
 }
 
 action "deploy" {
@@ -26,6 +38,7 @@ action "deploy" {
   uses = "maxheld83/ghpages@v0.2.1"
   env = {
     BUILD_DIR = "public/"
+    GITHUB_WORKSPACE = "docs/"
   }
   secrets = ["GH_PAT"]
 }
