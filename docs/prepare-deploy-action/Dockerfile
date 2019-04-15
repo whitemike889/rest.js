@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:10
 
 LABEL "com.github.actions.name"="Prepare deploy of website"
 LABEL "com.github.actions.description"="Installs all required dependencies and builds static website"
