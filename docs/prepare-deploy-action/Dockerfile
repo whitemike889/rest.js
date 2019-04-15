@@ -8,12 +8,15 @@ LABEL "repository"="http://github.com/octokit/rest.js"
 LABEL "homepage"="http://octokit.github.io/rest.js"
 LABEL "maintainer"="Gregor Martynus (https://github.com/gr2m)"
 
-# install
-COPY package*.json ./
-RUN npm ci --only=production
+ADD entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
-COPY docs ./
-RUN npm --prefix ./docs install ./docs
+# # install
+# # COPY ../../package*.json ./
+# RUN npm ci --only=production
 
-# build
-ENTRYPOINT [ "npm", "run", "build", "--prefix ./docs ]
+# # COPY ../../docs ./
+# RUN npm --prefix ./docs install ./docs
+
+# # build
+# ENTRYPOINT [ "npm", "run", "build", "--prefix ./docs ]

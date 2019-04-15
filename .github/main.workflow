@@ -1,6 +1,6 @@
 workflow "Deploy documentation to GitHub Pages on push" {
   on = "push"
-  resolves = ["deploy"]
+  resolves = ["prepare"]
 }
 
 # Filter for master branch
@@ -14,11 +14,11 @@ action "prepare" {
   uses = "./docs/prepare-deploy-action"
 }
 
-action "deploy" {
-  needs = "prepare"
-  uses = "maxheld83/ghpages@v0.2.1"
-  env = {
-    BUILD_DIR = "docs/public/"
-  }
-  secrets = ["GH_PAT"]
-}
+# action "deploy" {
+#   needs = "prepare"
+#   uses = "maxheld83/ghpages@v0.2.1"
+#   env = {
+#     BUILD_DIR = "docs/public/"
+#   }
+#   secrets = ["GH_PAT"]
+# }
