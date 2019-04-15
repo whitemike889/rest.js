@@ -1,6 +1,6 @@
 workflow "Deploy documentation to GitHub Pages on push" {
   on = "push"
-  resolves = ["prepare"]
+  resolves = ["deploy"]
 }
 
 # # Filter for master branch
