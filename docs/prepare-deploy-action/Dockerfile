@@ -10,13 +10,3 @@ LABEL "maintainer"="Gregor Martynus (https://github.com/gr2m)"
 
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-
-# # install
-# # COPY ../../package*.json ./
-# RUN npm ci --only=production
-
-# # COPY ../../docs ./
-# RUN npm --prefix ./docs install ./docs
-
-# # build
-# ENTRYPOINT [ "npm", "run", "build", "--prefix ./docs ]
