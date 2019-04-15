@@ -9,36 +9,16 @@ action "master branch only" {
   args = "branch debug-website"
 }
 
-action "npm ci" {
+action "prepare" {
   needs = "master branch only"
-  uses = "docker://node:alpine"
-  runs = "npm ci --production"
-}
-
-action "npm ci docs" {
-  needs = "npm ci"
-  uses = "docker://node:alpine"
-  runs = "npm ci --production"
-  env = {
-    GITHUB_WORKSPACE = "/github/workspace/docs/"
-  }
-}
-
-action "npm run build" {
-  needs = "npm ci"
-  uses = "docker://node:alpine"
-  runs = "npm run build -- --prefix-paths"
-  env = {
-    GITHUB_WORKSPACE = "/github/workspace/docs/"
-  }
+  uses = "./docs/prepare-deploy-action"
 }
 
 action "deploy" {
-  needs = "npm run build"
+  needs = "prepare"
   uses = "maxheld83/ghpages@v0.2.1"
   env = {
-    BUILD_DIR = "public/"
-    GITHUB_WORKSPACE = "/github/workspace/docs/"
+    BUILD_DIR = "docs/public/"
   }
   secrets = ["GH_PAT"]
 }
